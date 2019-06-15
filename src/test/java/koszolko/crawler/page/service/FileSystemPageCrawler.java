@@ -3,7 +3,9 @@ package koszolko.crawler.page.service;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.Optional;
@@ -13,6 +15,8 @@ import java.util.Optional;
  * Test data are store in resources/pages directory.
  */
 @Slf4j
+@Primary
+@Component
 public class FileSystemPageCrawler extends PageCrawler {
     public FileSystemPageCrawler(LinksExtractor linksExtractor) {
         super(linksExtractor);

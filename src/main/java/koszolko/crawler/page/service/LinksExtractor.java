@@ -7,14 +7,16 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class LinksExtractor {
     List<Link> extract(Document doc) {
-        List<Link> links = new ArrayList<>();
         List<Link> staticLinks = extractStaticLinks(doc);
         List<Link> pageLinks = extractLinks(doc);
+        List<Link> links = new ArrayList<>();
         links.addAll(staticLinks);
         links.addAll(pageLinks);
         return links;
@@ -25,16 +27,26 @@ public class LinksExtractor {
         return links.stream()
                 .map(link -> link.attr("abs:href"))
                 .filter(StringUtils::isNotBlank)
-                .map(Link::staticLink)
+                .distinct()
+                .map(Link::staticDomain)
                 .collect(toList());
     }
 
     private List<Link> extractStaticLinks(Document doc) {
-        Elements staticLinks = doc.select("[src]");
-        return staticLinks.stream()
+        Elements staticElements = doc.select("[src]");
+        Stream<Link> staticLinks = staticElements.stream()
                 .map(link -> link.attr("abs:src"))
                 .filter(StringUtils::isNotBlank)
-                .map(Link::staticLink)
-                .collect(toList());
+                .distinct()
+                .map(Link::staticLink);
+
+        Elements importElements = doc.select("link[href]");
+        Stream<Link> importLinks = importElements.stream()
+                .map(link -> link.attr("abs:href"))
+                .filter(StringUtils::isNotBlank)
+                .distinct()
+                .map(Link::staticLink);
+
+        return Stream.concat(staticLinks, importLinks).collect(Collectors.toList());
     }
 }

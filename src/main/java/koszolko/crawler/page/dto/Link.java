@@ -11,4 +11,8 @@ public class Link {
     public static Link staticLink(String url) {
         return new Link(url, LinkType.STATIC);
     }
+
+    public static Link staticDomain(String url) {
+        return new Link(url, LinkType.DOMAIN);
+    }
 }

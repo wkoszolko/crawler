@@ -14,8 +14,12 @@ class PageFactory {
     }
 
     @Bean
-    PageCrawler pageCrawler() {
-        LinksExtractor linksExtractor = new LinksExtractor();
+    PageCrawler pageCrawler(LinksExtractor linksExtractor) {
         return new PageCrawler(linksExtractor);
+    }
+
+    @Bean
+    LinksExtractor linksExtractor() {
+        return new LinksExtractor();
     }
 }
