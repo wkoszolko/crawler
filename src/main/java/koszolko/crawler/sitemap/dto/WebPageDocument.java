@@ -1,5 +1,6 @@
 package koszolko.crawler.sitemap.dto;
 
+import koszolko.crawler.page.dto.Link;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,5 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class WebPageDocument {
     private String url;
-    private List<WebPageDocument> links = new ArrayList<>();
+    private List<String> links = new ArrayList<>();
+
 }

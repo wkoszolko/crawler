@@ -1,6 +1,7 @@
 package koszolko.crawler.page.configuration;
 
 import koszolko.crawler.page.PageFacade;
+import koszolko.crawler.page.service.LinksExtractor;
 import koszolko.crawler.page.service.PageCrawler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ class PageFactory {
 
     @Bean
     PageCrawler pageCrawler() {
-        return new PageCrawler();
+        LinksExtractor linksExtractor = new LinksExtractor();
+        return new PageCrawler(linksExtractor);
     }
 }
