@@ -8,6 +8,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -18,20 +20,27 @@ import java.util.Optional;
 @Primary
 @Component
 public class FileSystemPageCrawler extends PageCrawler {
+    private static final Map<String, String> pages = new HashMap<>();
+
     public FileSystemPageCrawler(LinksExtractor linksExtractor) {
         super(linksExtractor);
+        initPages();
+    }
+
+    private void initPages() {
+        pages.put("https://www.elastic.co/", "pages/elastic_root.html");
     }
 
     @Override
     Optional<Document> fetchPage(String url) {
         log.info("Fetch page (url: {}) from disk.", url);
         try {
-            File input = new ClassPathResource("pages/elastic_root.html").getFile();
+            String filePath = pages.get(url);
+            File input = new ClassPathResource(filePath).getFile();
             return Optional.ofNullable(Jsoup.parse(input, "UTF-8", url));
         } catch (Exception e) {
             log.warn("Could not fetch page, url: " + url, e);
         }
         return Optional.empty();
     }
-
 }
