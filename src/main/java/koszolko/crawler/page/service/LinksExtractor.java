@@ -1,28 +1,30 @@
 package koszolko.crawler.page.service;
 
 import koszolko.crawler.page.dto.Link;
+import koszolko.crawler.page.dto.LinkType;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class LinksExtractor {
-    List<Link> extract(Document doc) {
+    Map<LinkType, List<Link>> extract(Document doc) {
         List<Link> staticLinks = extractStaticLinks(doc);
-        List<Link> pageLinks = extractLinks(doc);
-        List<Link> links = new ArrayList<>();
-        links.addAll(staticLinks);
-        links.addAll(pageLinks);
+        List<Link> domainLinks = extractDomainLinks(doc);
+        Map<LinkType, List<Link>> links = new HashMap<>();
+        links.put(LinkType.DOMAIN, domainLinks);
+        links.put(LinkType.STATIC, staticLinks);
         return links;
     }
 
-    private List<Link> extractLinks(Document doc) {
+    private List<Link> extractDomainLinks(Document doc) {
         Elements links = doc.select("a[href]");
         return links.stream()
                 .map(link -> link.attr("abs:href"))
