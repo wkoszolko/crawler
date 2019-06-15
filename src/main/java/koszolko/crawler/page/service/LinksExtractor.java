@@ -1,7 +1,9 @@
 package koszolko.crawler.page.service;
 
+import koszolko.crawler.page.dto.ExtractLinkCommand;
 import koszolko.crawler.page.dto.Link;
 import koszolko.crawler.page.dto.LinkType;
+import koszolko.crawler.page.dto.Url;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -15,22 +17,43 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 public class LinksExtractor {
-    Map<LinkType, List<Link>> extract(Document doc) {
+    Map<LinkType, List<Link>> extract(ExtractLinkCommand extractLinkCommand) {
+        Document doc = extractLinkCommand.getDoc();
         List<Link> staticLinks = extractStaticLinks(doc);
-        List<Link> domainLinks = extractDomainLinks(doc);
+        List<Link> domainLinks = extractDomainLinks(extractLinkCommand);
+        List<Link> externalLinks = extractExternalLinks(extractLinkCommand);
         Map<LinkType, List<Link>> links = new HashMap<>();
         links.put(LinkType.DOMAIN, domainLinks);
         links.put(LinkType.STATIC, staticLinks);
+        links.put(LinkType.EXTERNAL, externalLinks);
         return links;
     }
 
-    private List<Link> extractDomainLinks(Document doc) {
+    private List<Link> extractExternalLinks(ExtractLinkCommand extractLinkCommand) {
+        Document doc = extractLinkCommand.getDoc();
+        Url rootPage = extractLinkCommand.getRootPage();
         Elements links = doc.select("a[href]");
         return links.stream()
                 .map(link -> link.attr("abs:href"))
                 .filter(StringUtils::isNotBlank)
                 .distinct()
-                .map(Link::staticDomain)
+                .map(Url::new)
+                .filter(url -> !url.isSameDomain(rootPage))
+                .map(url -> Link.staticDomain(url.asString()))
+                .collect(toList());
+    }
+
+    private List<Link> extractDomainLinks(ExtractLinkCommand extractLinkCommand) {
+        Document doc = extractLinkCommand.getDoc();
+        Url rootPage = extractLinkCommand.getRootPage();
+        Elements links = doc.select("a[href]");
+        return links.stream()
+                .map(link -> link.attr("abs:href"))
+                .filter(StringUtils::isNotBlank)
+                .distinct()
+                .map(Url::new)
+                .filter(url -> url.isSameDomain(rootPage))
+                .map(url -> Link.staticDomain(url.asString()))
                 .collect(toList());
     }
 

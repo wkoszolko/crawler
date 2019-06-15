@@ -25,6 +25,21 @@ public class Page {
         return Collections.unmodifiableList(allLinks);
     }
 
+    public List<Link> getStaticLinks() {
+        List<Link> links = this.links.get(LinkType.STATIC);
+        return Collections.unmodifiableList(links);
+    }
+
+    public List<Link> getDomainLinks() {
+        List<Link> links = this.links.get(LinkType.DOMAIN);
+        return Collections.unmodifiableList(links);
+    }
+
+    public List<Link> getExternalLinks() {
+        List<Link> links = this.links.get(LinkType.EXTERNAL);
+        return Collections.unmodifiableList(links);
+    }
+
     public boolean isRoot() {
         return parentUrl==null;
     }

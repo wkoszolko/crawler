@@ -1,7 +1,6 @@
 package koszolko.crawler.page.service;
 
 import koszolko.crawler.page.dto.Page;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,6 +36,9 @@ public class CrawlPageTest {
         softly.assertThat(page).isNotNull();
         softly.assertThat(page.getUrl()).isEqualTo(correctUrl);
         softly.assertThat(page.getLinks()).size().isGreaterThan(0);
+        softly.assertThat(page.getStaticLinks()).size().isEqualTo(50);
+        softly.assertThat(page.getDomainLinks()).size().isEqualTo(74);
+        softly.assertThat(page.getExternalLinks().size()).isEqualTo(10);
     }
 
     @Test
@@ -46,6 +50,6 @@ public class CrawlPageTest {
         Optional<Page> maybePage = pageCrawler.crawl(wrongUrl);
 
         //then
-        Assertions.assertThat(maybePage.isPresent()).isFalse();
+        assertThat(maybePage.isPresent()).isFalse();
     }
 }
