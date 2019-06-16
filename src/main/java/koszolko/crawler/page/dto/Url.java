@@ -7,12 +7,21 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 @ToString
 @EqualsAndHashCode
 public class Url {
+    private final static Set<String> acceptedProtocols;
     private final URI url;
+
+    static {
+        acceptedProtocols = new HashSet<>();
+        acceptedProtocols.add("https");
+        acceptedProtocols.add("http");
+    }
 
     public Url(String url) {
         Assert.notNull(url, "Url can not be null!");
@@ -21,9 +30,11 @@ public class Url {
 
     public static boolean isValidUrl(String url) {
         try {
-            //todo dodac walidowanie protokolu - tylko http, https
             URI tmp = URI.create(url);
-            return StringUtils.isNotBlank(tmp.getHost());
+            String protocol = tmp.toURL().getProtocol().toLowerCase();
+            boolean correctProtocol = acceptedProtocols.contains(protocol);
+            boolean notBlankHost = StringUtils.isNotBlank(tmp.getHost());
+            return correctProtocol && notBlankHost;
         } catch (Exception ignore) {
         }
         return false;
