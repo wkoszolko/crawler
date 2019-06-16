@@ -1,6 +1,7 @@
 package koszolko.crawler.page.service;
 
 import koszolko.crawler.page.dto.Page;
+import koszolko.crawler.page.dto.Url;
 import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class CrawlPageTest {
     @Test
     public void should_return_page_with_links_for_correct_input() {
         //given
-        String correctUrl = "https://www.elastic.co/";
+        Url correctUrl = new Url("https://www.elastic.co/");
 
         //when
         Optional<Page> maybePage = pageCrawler.crawl(correctUrl);
@@ -34,7 +35,7 @@ public class CrawlPageTest {
 
         //then
         softly.assertThat(page).isNotNull();
-        softly.assertThat(page.getUrl()).isEqualTo(correctUrl);
+        softly.assertThat(page.getUrl()).isEqualTo(correctUrl.asString());
         softly.assertThat(page.getLinks()).size().isGreaterThan(0);
         softly.assertThat(page.getStaticLinks()).size().isEqualTo(50);
         softly.assertThat(page.getDomainLinks()).size().isEqualTo(74);
@@ -44,7 +45,7 @@ public class CrawlPageTest {
     @Test
     public void should_return_empty_optional_for_wrong_input() {
         //given
-        String wrongUrl = "wrong_url";
+        Url wrongUrl = new Url("wrong_url");
 
         //when
         Optional<Page> maybePage = pageCrawler.crawl(wrongUrl);

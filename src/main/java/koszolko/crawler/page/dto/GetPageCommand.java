@@ -4,5 +4,5 @@ import lombok.Value;
 
 @Value
 public class GetPageCommand {
-    private final String url;
+    private final Url url;
 }

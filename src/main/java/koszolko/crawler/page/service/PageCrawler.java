@@ -15,20 +15,21 @@ import java.util.Optional;
 public class PageCrawler {
     private final LinksExtractor linksExtractor;
 
-    public Optional<Page> crawl(String url) {
+    public Optional<Page> crawl(Url url) {
         Optional<Document> maybeDocument = fetchPage(url);
         return maybeDocument.map(doc -> buildPage(doc, url));
     }
 
-    private Page buildPage(Document document, String rootUrl) {
-        ExtractLinkCommand command = new ExtractLinkCommand(document, new Url(rootUrl));
+    private Page buildPage(Document document, Url url) {
+        ExtractLinkCommand command = new ExtractLinkCommand(document, url);
         Map<LinkType, List<Link>> links = linksExtractor.extract(command);
         return new Page(document.location(), links);
     }
 
-    Optional<Document> fetchPage(String url) {
+    Optional<Document> fetchPage(Url url) {
         try {
-            return Optional.ofNullable(Jsoup.connect(url).get());
+            String stringUrl = url.asString();
+            return Optional.ofNullable(Jsoup.connect(stringUrl).get());
         } catch (Exception e) {
             log.warn("Could not fetch page, url: " + url, e);
         }

@@ -10,12 +10,10 @@ import java.util.stream.Collectors;
 @Value
 @AllArgsConstructor
 public class Page {
-    private final String parentUrl;
     @Getter private final String url;
     private final Map<LinkType, List<Link>> links = new HashMap<>();
 
     public Page(String url, Map<LinkType, List<Link>> links) {
-        parentUrl = null;
         this.url = url;
         links.forEach(this.links::put);
     }
@@ -38,9 +36,5 @@ public class Page {
     public List<Link> getExternalLinks() {
         List<Link> links = this.links.get(LinkType.EXTERNAL);
         return Collections.unmodifiableList(links);
-    }
-
-    public boolean isRoot() {
-        return parentUrl==null;
     }
 }

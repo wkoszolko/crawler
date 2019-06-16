@@ -18,10 +18,13 @@ import static java.util.stream.Collectors.toList;
 
 public class LinksExtractor {
     Map<LinkType, List<Link>> extract(ExtractLinkCommand extractLinkCommand) {
-        Document doc = extractLinkCommand.getDoc();
-        List<Link> staticLinks = extractStaticLinks(doc);
+        List<Link> staticLinks = extractStaticLinks(extractLinkCommand);
         List<Link> domainLinks = extractDomainLinks(extractLinkCommand);
         List<Link> externalLinks = extractExternalLinks(extractLinkCommand);
+        return buildMap(staticLinks, domainLinks, externalLinks);
+    }
+
+    private Map<LinkType, List<Link>> buildMap(List<Link> staticLinks, List<Link> domainLinks, List<Link> externalLinks) {
         Map<LinkType, List<Link>> links = new HashMap<>();
         links.put(LinkType.DOMAIN, domainLinks);
         links.put(LinkType.STATIC, staticLinks);
@@ -31,38 +34,44 @@ public class LinksExtractor {
 
     private List<Link> extractExternalLinks(ExtractLinkCommand extractLinkCommand) {
         Document doc = extractLinkCommand.getDoc();
-        Url rootPage = extractLinkCommand.getRootPage();
+        Url pageUrl = extractLinkCommand.getUrl();
         Elements links = doc.select("a[href]");
         return links.stream()
                 .map(link -> link.attr("abs:href"))
                 .filter(StringUtils::isNotBlank)
                 .distinct()
+                .filter(Url::isValidUrl)
                 .map(Url::new)
-                .filter(url -> !url.isSameDomain(rootPage))
-                .map(url -> Link.staticDomain(url.asString()))
+                .filter(url -> !pageUrl.isSameDomain(url))
+                .map(Link::externalLink)
                 .collect(toList());
     }
 
     private List<Link> extractDomainLinks(ExtractLinkCommand extractLinkCommand) {
         Document doc = extractLinkCommand.getDoc();
-        Url rootPage = extractLinkCommand.getRootPage();
+        Url pageUrl = extractLinkCommand.getUrl();
         Elements links = doc.select("a[href]");
         return links.stream()
                 .map(link -> link.attr("abs:href"))
                 .filter(StringUtils::isNotBlank)
                 .distinct()
+                .filter(Url::isValidUrl)
                 .map(Url::new)
-                .filter(url -> url.isSameDomain(rootPage))
-                .map(url -> Link.staticDomain(url.asString()))
+                .filter(pageUrl::isSameDomain)
+                .map(Link::domainLink)
                 .collect(toList());
     }
 
-    private List<Link> extractStaticLinks(Document doc) {
+    private List<Link> extractStaticLinks(ExtractLinkCommand extractLinkCommand) {
+        Document doc = extractLinkCommand.getDoc();
+
         Elements staticElements = doc.select("[src]");
         Stream<Link> staticLinks = staticElements.stream()
                 .map(link -> link.attr("abs:src"))
                 .filter(StringUtils::isNotBlank)
                 .distinct()
+                .filter(Url::isValidUrl)
+                .map(Url::new)
                 .map(Link::staticLink);
 
         Elements importElements = doc.select("link[href]");
@@ -70,6 +79,8 @@ public class LinksExtractor {
                 .map(link -> link.attr("abs:href"))
                 .filter(StringUtils::isNotBlank)
                 .distinct()
+                .filter(Url::isValidUrl)
+                .map(Url::new)
                 .map(Link::staticLink);
 
         return Stream.concat(staticLinks, importLinks).collect(Collectors.toList());

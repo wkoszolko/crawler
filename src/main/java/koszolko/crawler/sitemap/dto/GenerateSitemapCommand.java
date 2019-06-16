@@ -12,4 +12,5 @@ import javax.validation.constraints.NotNull;
 public class GenerateSitemapCommand {
     @NotNull
     private String url;
+    private int limit = 100;
 }

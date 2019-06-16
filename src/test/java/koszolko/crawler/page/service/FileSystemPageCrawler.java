@@ -1,5 +1,6 @@
 package koszolko.crawler.page.service;
 
+import koszolko.crawler.page.dto.Url;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,12 +33,12 @@ public class FileSystemPageCrawler extends PageCrawler {
     }
 
     @Override
-    Optional<Document> fetchPage(String url) {
+    Optional<Document> fetchPage(Url url) {
         log.info("Fetch page (url: {}) from disk.", url);
         try {
-            String filePath = pages.get(url);
+            String filePath = pages.get(url.asString());
             File input = new ClassPathResource(filePath).getFile();
-            return Optional.ofNullable(Jsoup.parse(input, "UTF-8", url));
+            return Optional.ofNullable(Jsoup.parse(input, "UTF-8", url.asString()));
         } catch (Exception e) {
             log.warn("Could not fetch page, url: " + url, e);
         }

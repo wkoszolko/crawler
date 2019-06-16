@@ -5,14 +5,19 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public class Link {
-    @Getter private String url;
+    @Getter
+    private Url url;
     private LinkType type;
 
-    public static Link staticLink(String url) {
+    public static Link staticLink(Url url) {
         return new Link(url, LinkType.STATIC);
     }
 
-    public static Link staticDomain(String url) {
+    public static Link domainLink(Url url) {
         return new Link(url, LinkType.DOMAIN);
+    }
+
+    public static Link externalLink(Url url) {
+        return new Link(url, LinkType.EXTERNAL);
     }
 }

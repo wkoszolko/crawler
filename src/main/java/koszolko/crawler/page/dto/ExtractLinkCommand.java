@@ -9,5 +9,5 @@ import org.jsoup.nodes.Document;
 @AllArgsConstructor
 public class ExtractLinkCommand {
     private final Document doc;
-    private final Url rootPage;
+    private final Url url;
 }

@@ -19,7 +19,7 @@ class GenerateSitemapController {
     private final SitemapFacade sitemapFacade;
 
     @PostMapping("/sitemaps")
-    ResponseEntity<Object> registerObject(@RequestBody @Valid GenerateSitemapCommand command) {
+    ResponseEntity<Sitemap> registerObject(@RequestBody @Valid GenerateSitemapCommand command) {
         Sitemap sitemap = sitemapFacade.generate(command);
         String id = sitemap.getId();
         return ResponseEntity

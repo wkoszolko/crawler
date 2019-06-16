@@ -4,20 +4,21 @@ import koszolko.crawler.page.dto.GetPageCommand;
 import koszolko.crawler.page.dto.Page;
 import koszolko.crawler.page.service.PageCrawler;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @AllArgsConstructor
 public class PageFacade {
     private final PageCrawler pageCrawler;
 
-    public List<Page> crawlDomain(GetPageCommand command) {
-        //fetch only one page
-        Optional<Page> maybePage = pageCrawler.crawl(command.getUrl());
-        List<Page> pages = new ArrayList<>();
-        maybePage.ifPresent(pages::add);
-        return pages;
+    public Optional<Page> crawlDomain(GetPageCommand command) {
+        long startTime = System.currentTimeMillis();
+        Optional<Page> page = pageCrawler.crawl(command.getUrl());
+        long endTime = System.currentTimeMillis();
+        //todo dodac aspekt logujacy czas wykonania
+        log.info("Fetched url {} in {} ms", command.getUrl(), (endTime - startTime));
+        return page;
     }
 }

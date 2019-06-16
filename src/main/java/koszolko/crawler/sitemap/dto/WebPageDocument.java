@@ -12,5 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class WebPageDocument {
     private String url;
-    private List<String> links = new ArrayList<>();
+    private List<String> domainLinks = new ArrayList<>();
+    private List<String> staticLinks = new ArrayList<>();
+    private List<String> externalLinks = new ArrayList<>();
 }
