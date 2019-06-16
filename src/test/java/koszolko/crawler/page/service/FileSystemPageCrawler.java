@@ -1,6 +1,6 @@
 package koszolko.crawler.page.service;
 
-import koszolko.crawler.page.dto.Url;
+import koszolko.crawler.page.model.Url;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

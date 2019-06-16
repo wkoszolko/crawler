@@ -1,4 +1,4 @@
-package koszolko.crawler.page.dto;
+package koszolko.crawler.page.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

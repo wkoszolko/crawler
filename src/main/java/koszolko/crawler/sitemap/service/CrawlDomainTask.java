@@ -1,10 +1,10 @@
 package koszolko.crawler.sitemap.service;
 
 import koszolko.crawler.page.PageFacade;
-import koszolko.crawler.page.dto.GetPageCommand;
-import koszolko.crawler.page.dto.Link;
-import koszolko.crawler.page.dto.Page;
-import koszolko.crawler.page.dto.Url;
+import koszolko.crawler.page.dto.GetPage;
+import koszolko.crawler.page.model.Link;
+import koszolko.crawler.page.model.Page;
+import koszolko.crawler.page.model.Url;
 import koszolko.crawler.sitemap.dto.CrawlDomain;
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,7 +101,7 @@ class CrawlDomainTask {
 
     private Callable<Optional<Page>> createPageTask(Url url) {
         log.info("Fetching url: {}", url);
-        GetPageCommand getPage = new GetPageCommand(url);
+        GetPage getPage = new GetPage(url);
         return () -> pageFacade.fetch(getPage);
     }
 }

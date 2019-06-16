@@ -1,5 +1,6 @@
 package koszolko.crawler.page.dto;
 
+import koszolko.crawler.page.model.Url;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

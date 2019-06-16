@@ -1,7 +1,7 @@
 package koszolko.crawler.page.service;
 
-import koszolko.crawler.page.dto.Page;
-import koszolko.crawler.page.dto.Url;
+import koszolko.crawler.page.model.Page;
+import koszolko.crawler.page.model.Url;
 import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;

@@ -1,6 +1,10 @@
 package koszolko.crawler.page.service;
 
-import koszolko.crawler.page.dto.*;
+import koszolko.crawler.page.dto.ExtractLink;
+import koszolko.crawler.page.model.Link;
+import koszolko.crawler.page.model.LinkType;
+import koszolko.crawler.page.model.Page;
+import koszolko.crawler.page.model.Url;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -21,7 +25,7 @@ public class PageCrawler {
     }
 
     private Page buildPage(Document document, Url url) {
-        ExtractLinkCommand command = new ExtractLinkCommand(document, url);
+        ExtractLink command = new ExtractLink(document, url);
         Map<LinkType, List<Link>> links = linksExtractor.extract(command);
         return new Page(document.location(), links);
     }

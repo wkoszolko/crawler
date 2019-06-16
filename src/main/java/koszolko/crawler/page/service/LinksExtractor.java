@@ -1,9 +1,9 @@
 package koszolko.crawler.page.service;
 
-import koszolko.crawler.page.dto.ExtractLinkCommand;
-import koszolko.crawler.page.dto.Link;
-import koszolko.crawler.page.dto.LinkType;
-import koszolko.crawler.page.dto.Url;
+import koszolko.crawler.page.dto.ExtractLink;
+import koszolko.crawler.page.model.Link;
+import koszolko.crawler.page.model.LinkType;
+import koszolko.crawler.page.model.Url;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -17,10 +17,10 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 public class LinksExtractor {
-    Map<LinkType, List<Link>> extract(ExtractLinkCommand extractLinkCommand) {
-        List<Link> staticLinks = extractStaticLinks(extractLinkCommand);
-        List<Link> domainLinks = extractDomainLinks(extractLinkCommand);
-        List<Link> externalLinks = extractExternalLinks(extractLinkCommand);
+    Map<LinkType, List<Link>> extract(ExtractLink extractLink) {
+        List<Link> staticLinks = extractStaticLinks(extractLink);
+        List<Link> domainLinks = extractDomainLinks(extractLink);
+        List<Link> externalLinks = extractExternalLinks(extractLink);
         return buildMap(staticLinks, domainLinks, externalLinks);
     }
 
@@ -32,9 +32,9 @@ public class LinksExtractor {
         return links;
     }
 
-    private List<Link> extractExternalLinks(ExtractLinkCommand extractLinkCommand) {
-        Document doc = extractLinkCommand.getDoc();
-        Url pageUrl = extractLinkCommand.getUrl();
+    private List<Link> extractExternalLinks(ExtractLink extractLink) {
+        Document doc = extractLink.getDoc();
+        Url pageUrl = extractLink.getUrl();
         Elements links = doc.select("a[href]");
         return links.stream()
                 .map(link -> link.attr("abs:href"))
@@ -47,9 +47,9 @@ public class LinksExtractor {
                 .collect(toList());
     }
 
-    private List<Link> extractDomainLinks(ExtractLinkCommand extractLinkCommand) {
-        Document doc = extractLinkCommand.getDoc();
-        Url pageUrl = extractLinkCommand.getUrl();
+    private List<Link> extractDomainLinks(ExtractLink extractLink) {
+        Document doc = extractLink.getDoc();
+        Url pageUrl = extractLink.getUrl();
         Elements links = doc.select("a[href]");
         return links.stream()
                 .map(link -> link.attr("abs:href"))
@@ -62,8 +62,8 @@ public class LinksExtractor {
                 .collect(toList());
     }
 
-    private List<Link> extractStaticLinks(ExtractLinkCommand extractLinkCommand) {
-        Document doc = extractLinkCommand.getDoc();
+    private List<Link> extractStaticLinks(ExtractLink extractLink) {
+        Document doc = extractLink.getDoc();
 
         Elements staticElements = doc.select("[src]");
         Stream<Link> staticLinks = staticElements.stream()

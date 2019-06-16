@@ -1,4 +1,4 @@
-package koszolko.crawler.page.dto;
+package koszolko.crawler.page.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.Value;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//todo zastanowic sie czy potrzebny podzial dto/model
 @Value
 @AllArgsConstructor
 public class Page {

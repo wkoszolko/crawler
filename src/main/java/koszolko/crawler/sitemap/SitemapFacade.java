@@ -1,7 +1,7 @@
 package koszolko.crawler.sitemap;
 
-import koszolko.crawler.page.dto.Page;
-import koszolko.crawler.page.dto.Url;
+import koszolko.crawler.page.model.Page;
+import koszolko.crawler.page.model.Url;
 import koszolko.crawler.sitemap.dto.CrawlDomain;
 import koszolko.crawler.sitemap.dto.GenerateSitemapCommand;
 import koszolko.crawler.sitemap.dto.Sitemap;

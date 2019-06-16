@@ -1,8 +1,8 @@
 package koszolko.crawler.sitemap.service;
 
-import koszolko.crawler.page.dto.Link;
-import koszolko.crawler.page.dto.Page;
-import koszolko.crawler.page.dto.Url;
+import koszolko.crawler.page.model.Link;
+import koszolko.crawler.page.model.Page;
+import koszolko.crawler.page.model.Url;
 import koszolko.crawler.sitemap.dto.Sitemap;
 import koszolko.crawler.sitemap.dto.WebPageDocument;
 import lombok.AllArgsConstructor;

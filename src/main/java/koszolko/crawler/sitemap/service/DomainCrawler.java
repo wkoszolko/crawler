@@ -1,7 +1,7 @@
 package koszolko.crawler.sitemap.service;
 
 import koszolko.crawler.page.PageFacade;
-import koszolko.crawler.page.dto.Page;
+import koszolko.crawler.page.model.Page;
 import koszolko.crawler.sitemap.dto.CrawlDomain;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
