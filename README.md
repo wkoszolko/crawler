@@ -86,7 +86,7 @@ returns:
 
 Solution
 ------
-#####High level solution
+**High level design**
 
 ![screen](https://user-images.githubusercontent.com/15219684/59570442-6a0a4f00-9098-11e9-8f4e-53035b1e51aa.jpg)
 
@@ -97,7 +97,7 @@ Processing will be terminated if:
 
 Crawler generate sitemap for given url. Crawler use limit of number of pages to fetch to prevent timeouts and OutOfMemoryException.
 
-#####Page fetching
+**Page fetching**
 
 Application use jsoup library (https://jsoup.org/) to fetch and parse pages. For each page, crawler extract links:
 * static content
@@ -111,7 +111,8 @@ Crawler process only URLs with protocols:
 
 Different protocols will be skip.
 
-####Integration tests
+**Integration tests**
+
 Application use FileSystemPageCrawler in test environment. This class fetch pages from disk instead if the Internet. All html files are stored in `src/test/resources/pages`.
 
 If you want to add new page for testing purpose, you should add new html file and update mappings url->file (FileSystemPageCrawler::pages)
@@ -133,7 +134,7 @@ app.fetch-page-client.fetch-timeout-in-seconds | Timeout (in seconds) of fetchin
 Build
 ------
 ```
-./mvn clean install
+mvn clean install
 ```
 
 Run
@@ -144,7 +145,7 @@ java -jar target/domain-crawler.jar
 
 Api
 ------
-#####Generate site map
+**Generate site map**
 
 ```
 POST /sitemaps
