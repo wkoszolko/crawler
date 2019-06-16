@@ -85,6 +85,7 @@
     </dependencyManagement>
 
     <build>
+        <finalName>domain-crawler</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
