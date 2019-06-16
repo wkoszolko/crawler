@@ -23,6 +23,4 @@ public class DomainCrawler {
         );
         return task.execute();
     }
-
-
 }

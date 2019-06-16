@@ -13,7 +13,7 @@ import java.util.Optional;
 public class PageFacade {
     private final PageCrawler pageCrawler;
 
-    public Optional<Page> crawlDomain(GetPageCommand command) {
+    public Optional<Page> fetch(GetPageCommand command) {
         long startTime = System.currentTimeMillis();
         Optional<Page> page = pageCrawler.crawl(command.getUrl());
         long endTime = System.currentTimeMillis();

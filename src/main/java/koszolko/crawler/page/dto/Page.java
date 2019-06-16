@@ -7,6 +7,7 @@ import lombok.Value;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//todo zastanowic sie czy potrzebny podzial dto/model
 @Value
 @AllArgsConstructor
 public class Page {

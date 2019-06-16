@@ -22,8 +22,8 @@ import static java.util.stream.Collectors.toList;
 class CrawlDomainTask {
     private final PageFacade pageFacade;
     private final ExecutorService executor;
-    private final Queue<Url> urlsToCrawl = new LinkedList<>();
-    private final Set<Url> crawledUrls = new HashSet<>();
+    private final Queue<Url> urlsToFetch = new LinkedList<>();
+    private final Set<Url> fetchedUrls = new HashSet<>();
     private final CrawlDomain input;
     private final AtomicInteger counter = new AtomicInteger(0);
     private final Queue<Future<Optional<Page>>> futurePages = new LinkedList<>();
@@ -58,15 +58,27 @@ class CrawlDomainTask {
 
     private void processNewPage(Page page) {
         this.pages.add(page);
-        urlsToCrawl.addAll(page.getDomainLinks().stream().map(Link::getUrl).collect(toList()));
-        while (counter.get() < this.input.getLimit() && urlsToCrawl.size() > 0) {
-            Url currentUrlToCrawl = urlsToCrawl.poll();
-            if (isNewUrl(crawledUrls, currentUrlToCrawl)) {
+        urlsToFetch.addAll(page.getDomainLinks().stream().map(Link::getUrl).collect(toList()));
+        while (limitNotExceeded() && hasUrlsToFetch()) {
+            Url nextUrl = urlsToFetch.poll();
+            if (notFetchedUrl(nextUrl)) {
+                futurePages.add(executor.submit(createPageTask(nextUrl)));
                 counter.incrementAndGet();
-                crawledUrls.add(currentUrlToCrawl);
-                futurePages.add(executor.submit(createPageTask(currentUrlToCrawl)));
+                fetchedUrls.add(nextUrl);
             }
         }
+    }
+
+    private boolean hasUrlsToFetch() {
+        return urlsToFetch.size() > 0;
+    }
+
+    private boolean limitNotExceeded() {
+        return counter.get() < this.input.getLimit();
+    }
+
+    private boolean notFetchedUrl(Url url) {
+        return !this.fetchedUrls.contains(url);
     }
 
     private Optional<Page> getPageTaskResult() {
@@ -84,17 +96,12 @@ class CrawlDomainTask {
         Url rootPageUrl = this.input.getUrl();
         Callable<Optional<Page>> rootPageTask = createPageTask(rootPageUrl);
         this.futurePages.add(executor.submit(rootPageTask));
-        this.crawledUrls.add(rootPageUrl);
+        this.fetchedUrls.add(rootPageUrl);
     }
 
     private Callable<Optional<Page>> createPageTask(Url url) {
         log.info("Fetching url: {}", url);
         GetPageCommand getPage = new GetPageCommand(url);
-        return () -> pageFacade.crawlDomain(getPage);
+        return () -> pageFacade.fetch(getPage);
     }
-
-    private boolean isNewUrl(Set<Url> crawledUrls, Url currentUrlToCrawl) {
-        return !crawledUrls.contains(currentUrlToCrawl);
-    }
-
 }
