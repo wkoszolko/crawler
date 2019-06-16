@@ -2,7 +2,7 @@ package koszolko.crawler.sitemap.service;
 
 import koszolko.crawler.page.model.Link;
 import koszolko.crawler.page.model.Page;
-import koszolko.crawler.page.model.Url;
+import koszolko.crawler.shared.model.Url;
 import koszolko.crawler.sitemap.dto.Sitemap;
 import koszolko.crawler.sitemap.dto.WebPageDocument;
 import lombok.AllArgsConstructor;

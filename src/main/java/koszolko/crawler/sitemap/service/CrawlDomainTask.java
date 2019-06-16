@@ -4,7 +4,7 @@ import koszolko.crawler.page.PageFacade;
 import koszolko.crawler.page.dto.GetPage;
 import koszolko.crawler.page.model.Link;
 import koszolko.crawler.page.model.Page;
-import koszolko.crawler.page.model.Url;
+import koszolko.crawler.shared.model.Url;
 import koszolko.crawler.sitemap.dto.CrawlDomain;
 import lombok.extern.slf4j.Slf4j;
 

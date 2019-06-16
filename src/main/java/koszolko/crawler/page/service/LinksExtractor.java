@@ -3,7 +3,7 @@ package koszolko.crawler.page.service;
 import koszolko.crawler.page.dto.ExtractLink;
 import koszolko.crawler.page.model.Link;
 import koszolko.crawler.page.model.LinkType;
-import koszolko.crawler.page.model.Url;
+import koszolko.crawler.shared.model.Url;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

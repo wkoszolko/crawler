@@ -1,4 +1,4 @@
-package koszolko.crawler.page.model;
+package koszolko.crawler.shared.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

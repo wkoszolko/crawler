@@ -1,5 +1,6 @@
 package koszolko.crawler.page.model;
 
+import koszolko.crawler.shared.model.Url;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

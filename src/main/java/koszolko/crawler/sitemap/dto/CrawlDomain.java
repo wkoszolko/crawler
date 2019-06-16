@@ -1,6 +1,6 @@
 package koszolko.crawler.sitemap.dto;
 
-import koszolko.crawler.page.model.Url;
+import koszolko.crawler.shared.model.Url;
 import lombok.Value;
 
 @Value

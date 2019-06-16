@@ -1,6 +1,5 @@
-package koszolko.crawler.page.dto;
+package koszolko.crawler.shared.model;
 
-import koszolko.crawler.page.model.Url;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -4,7 +4,7 @@ import koszolko.crawler.page.dto.ExtractLink;
 import koszolko.crawler.page.model.Link;
 import koszolko.crawler.page.model.LinkType;
 import koszolko.crawler.page.model.Page;
-import koszolko.crawler.page.model.Url;
+import koszolko.crawler.shared.model.Url;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
