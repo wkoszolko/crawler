@@ -1,7 +1,7 @@
 package koszolko.crawler.sitemap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import koszolko.crawler.sitemap.dto.GenerateSitemapCommand;
+import koszolko.crawler.sitemap.dto.GenerateSitemap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class GenerateSitemapValidationTest {
 
     @Test
     public void should_return_400_for_incorrect_input() throws Exception {
-        GenerateSitemapCommand correctRequest = new GenerateSitemapCommand("www.google.com", 100);
+        GenerateSitemap correctRequest = new GenerateSitemap("www.google.com", 100);
 
         MvcResult result = mvc.perform(post("/sitemaps")
                 .content(objectMapper.writeValueAsString(correctRequest))

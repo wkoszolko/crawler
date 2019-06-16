@@ -1,7 +1,7 @@
 package koszolko.crawler.sitemap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import koszolko.crawler.sitemap.dto.GenerateSitemapCommand;
+import koszolko.crawler.sitemap.dto.GenerateSitemap;
 import koszolko.crawler.sitemap.dto.Sitemap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ public class GenerateSitemapTest {
 
     @Test
     public void should_return_sitemap_for_correct_input() throws Exception {
-        GenerateSitemapCommand correctRequest = new GenerateSitemapCommand("https://www.elastic.co/", 100);
+        GenerateSitemap correctRequest = new GenerateSitemap("https://www.elastic.co/", 100);
 
         MvcResult result = mvc.perform(post("/sitemaps")
                 .content(objectMapper.writeValueAsString(correctRequest))

@@ -1,7 +1,7 @@
 package koszolko.crawler.sitemap.web;
 
 import koszolko.crawler.sitemap.SitemapFacade;
-import koszolko.crawler.sitemap.dto.GenerateSitemapCommand;
+import koszolko.crawler.sitemap.dto.GenerateSitemap;
 import koszolko.crawler.sitemap.dto.Sitemap;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ class GenerateSitemapController {
     private final SitemapFacade sitemapFacade;
 
     @PostMapping("/sitemaps")
-    ResponseEntity<Sitemap> registerObject(@RequestBody @Valid GenerateSitemapCommand command) {
+    ResponseEntity<Sitemap> registerObject(@RequestBody @Valid GenerateSitemap command) {
         Sitemap sitemap = sitemapFacade.generate(command);
         String id = sitemap.getId();
         return ResponseEntity
