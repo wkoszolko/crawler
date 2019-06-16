@@ -1,6 +1,6 @@
 Domain crawler
 ====================
-The goal of this application is generating sitemap. The crawler is limited to one domain. Sitemmap contains list web pages. Each web page contains list of: domain links, links to static content, links to external sites.
+The goal of this application is generating sitemap. The crawler is limited to one domain. Sitemmap contains list of web pages. Each web page contains list of: domain links, links to static content, links to external sites.
 
 The crawler does not support:
 * subdomains
@@ -11,7 +11,7 @@ For given input:
 ```json
 {"url":"https://www.google.com"}
 ```
-return results:
+returns:
 ```json
 {
   "id": "d87cfb82-7fe1-4f5d-abe6-b21fb3011260",
@@ -98,7 +98,8 @@ Processing will be terminated if:
 Crawler generate sitemap for given url. Crawler use limit of number of pages to fetch to prevent timeouts and OutOfMemoryException.
 
 #####Page fetching
-Application use jsoup library (https://jsoup.org/) to fetch and parse pages. Dor each page crawler extract links:
+
+Application use jsoup library (https://jsoup.org/) to fetch and parse pages. For each page, crawler extract links:
 * static content
 * links:
     * domain - with the same domain
@@ -147,10 +148,10 @@ POST /sitemaps
 }
 ```
 
-Input field | Description | Default value
---- | --- | ---
-url | Url of root page | -
-limit | The limit of pages to be fetch | 50
+Input field | Description | Required | Default value
+--- | --- | --- | ---
+url | Url of root page | Yes | -
+limit | The limit of pages to be fetch | No | 50
 
 
 Usage example:
