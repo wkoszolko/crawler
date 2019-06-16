@@ -4,6 +4,7 @@ import koszolko.crawler.sitemap.SitemapFacade;
 import koszolko.crawler.sitemap.dto.GenerateSitemap;
 import koszolko.crawler.sitemap.dto.Sitemap;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ import java.net.URI;
 class GenerateSitemapController {
     private final SitemapFacade sitemapFacade;
 
-    @PostMapping("/sitemaps")
+    @PostMapping(value = "/sitemaps", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<Sitemap> registerObject(@RequestBody @Valid GenerateSitemap command) {
         Sitemap sitemap = sitemapFacade.generate(command);
         String id = sitemap.getId();

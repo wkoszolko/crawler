@@ -30,6 +30,9 @@ public class FileSystemPageCrawler extends PageCrawler {
 
     private void initPages() {
         pages.put("https://www.elastic.co/", "pages/elastic_root.html");
+        pages.put("https://www.recursive.com/", "pages/recursive_page_root.html");
+        pages.put("https://www.recursive.com/child_1", "pages/recursive_page_child_1.html");
+        pages.put("https://www.recursive.com/child_2", "pages/recursive_page_child_2.html");
     }
 
     @Override

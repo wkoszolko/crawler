@@ -23,7 +23,7 @@ public class SitemapBuilder {
             List<String> staticLinks = p.getStaticLinks().stream().map(Link::getUrl).map(Url::asString).collect(Collectors.toList());
             List<String> domainLinks = p.getDomainLinks().stream().map(Link::getUrl).map(Url::asString).collect(Collectors.toList());
             List<String> externalLinks = p.getExternalLinks().stream().map(Link::getUrl).map(Url::asString).collect(Collectors.toList());
-            webPageDocuments.add(new WebPageDocument(url, staticLinks, domainLinks, externalLinks));
+            webPageDocuments.add(new WebPageDocument(url, domainLinks, staticLinks, externalLinks));
         }
 
         String id = idGenerator.generateId().toString();

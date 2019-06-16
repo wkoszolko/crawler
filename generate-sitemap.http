@@ -1,5 +1,5 @@
 POST http://localhost:19090/sitemaps
-Content-Type: application/json
+Content-Type: application/json;charset=UTF-8
 
 {"url":"https://www.google.com"}
 

@@ -14,5 +14,5 @@ public class GenerateSitemap {
     @NotNull
     @URL
     private String url;
-    private int limit = 100;
+    private int limit = 50;
 }
