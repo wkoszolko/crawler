@@ -109,18 +109,18 @@ Crawler process only URLs with protocols:
 * https
 * http
 
-Different protocols will be skip.
+Other types of protocols will be skipped.
 
 **Integration tests**
 
-Application use FileSystemPageCrawler in test environment. This class fetch pages from disk instead if the Internet. All html files are stored in `src/test/resources/pages`.
+Application use *FileSystemPageCrawler* in test environment. This class fetch pages from disk instead of the Internet. All html files are stored in `src/test/resources/pages`.
 
-If you want to add new page for testing purpose, you should add new html file and update mappings url->file (FileSystemPageCrawler::pages)
+If you want to add new page for testing purpose, you should add new html file and update mappings url->file (*FileSystemPageCrawler::pages*)
 
 
 System requirements
 ------
-To build and run you need to have Java 8 na Maven 3 installed and configured correctly.
+To build and run you need to have **Java 8** na **Maven 3** installed and configured correctly.
 
 Configuration
 ------
@@ -168,9 +168,9 @@ curl -d '{"url":"https://www.google.com"}' -H 'Content-Type: application/json;ch
 Future extensions
 ------
 Possible future extensions:
-* Generate sitemap asynchronous and return the id of the task. Then get sitemap based on result of task. 
+* Generate sitemap asynchronous, create a task and return the id of the task. Get sitemap based on result of task. 
 This approach allows us to remove problem wilth http client timeouts (when client wait for the response from the api).
-* Add repository for sitemaps, then allow to get sitemap based on id
+* Add repository for sitemaps and allow to get sitemap based on id
 * Return sitemap with pagination and removed the limit of fetch pages
 * Use asynchronous http
 * Provide api throttling
